@@ -1,6 +1,9 @@
 import express from 'express';
 import bodyParser from 'body-parser';
 import cors from 'cors';
+import dotenv from 'dotenv'
+import {gradeRouter} from "./routes/gradeRouter.js";
+dotenv.config();
 
 import { db } from './models/index.js';
 
@@ -11,6 +14,7 @@ import { db } from './models/index.js';
       useUnifiedTopology: true,
     });
   } catch (error) {
+    console.log("erro");
     process.exit();
   }
 })();
@@ -25,9 +29,9 @@ app.use(
     origin: 'http://localhost:8080',
   })
 );
-
+app.use(gradeRouter);
 app.get('/', (req, res) => {
   res.send('API em execucao');
 });
 
-app.listen(process.env.PORT || 8081, () => {});
+app.listen(process.env.PORT || 8081, () => console.log("Started!"));
